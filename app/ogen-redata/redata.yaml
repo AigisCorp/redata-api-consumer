@@ -1,0 +1,93 @@
+openapi: 3.0.2
+servers:
+  - url: /api/v1
+info:
+  version: 1.0.0
+  title: PVPC schema
+tags:
+  - name: pvpc
+    description: PVPC endpoints
+paths:
+  /charge:
+    get:
+      tags:
+        - charge
+      summary: Charging hours
+      description: Return True or False if the value is under mean for the day
+      operationId: charge
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Charge'
+        '404':
+          description: Price not found
+  /cheap:
+    get:
+      tags:
+        - cheap
+      summary: Cheap hours
+      description: Get X cheap hours
+      operationId: getCheap
+      parameters:
+        - name: hours
+          in: query
+          required: true
+          description: The number of hours to retrieve
+          schema:
+            type: integer
+            format: uint8
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Prices'
+        '404':
+          description: Price not found
+  /cheapest:
+    get:
+      tags:
+        - cheapest
+      summary: Get cheapest hour
+      description: Get cheapest hour and its price
+      operationId: getCheapest
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Price'
+        '404':
+          description: Price not found
+components:
+  schemas:
+    Charge:
+      type: object
+      required:
+        - charge
+      properties:
+        charge:
+          type: boolean
+          example: true
+    Price:
+      type: object
+      required:
+        - price
+        - datetime
+      properties:
+        price:
+          type: number
+          format: float64
+          example: 0.014
+        datetime:
+          type: string
+          example: "2023-12-04T00:00:00.000+01:00"
+    Prices:
+      type: object
+      additionalProperties: true
+      

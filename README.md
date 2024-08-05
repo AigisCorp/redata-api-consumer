@@ -14,14 +14,6 @@ Its purpose is to provide an API service for being able to take better decission
 
 ## Documentation
 
-You can run 'redata-api-consumer' with a docker container:
-
-```shell
-docker build . --tag redata-api-consumer
-
-docker run --rm -p 8080:8080 -e location=Europe/Madrid redata-api-consumer
-```
-
 Check the [Docs](docs/README.md) to explore the endpoints.
 
 ## Contributing
@@ -33,4 +25,3 @@ Please review our [Contribution Guidelines](CONTRIBUTING) for more information o
 ## License
 
 This project is licensed under the Apache 2.0 License. See [LICENSE](LICENSE) for more information.
-

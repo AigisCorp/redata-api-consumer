@@ -1,0 +1,99 @@
+openapi: 3.0.2
+info:
+  title: PVPC schema
+  version: 1.0.0
+servers:
+- url: /api/v1
+tags:
+- description: PVPC endpoints
+  name: pvpc
+paths:
+  /charge:
+    get:
+      description: Return True or False if the value is under mean for the day
+      operationId: charge
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Charge'
+          description: Successful operation
+        "404":
+          description: Price not found
+      summary: Charging hours
+      tags:
+      - charge
+  /cheap:
+    get:
+      description: Get X cheap hours
+      operationId: getCheap
+      parameters:
+      - description: The number of hours to retrieve
+        explode: true
+        in: query
+        name: hours
+        required: true
+        schema:
+          format: uint8
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Prices'
+          description: Successful operation
+        "404":
+          description: Price not found
+      summary: Cheap hours
+      tags:
+      - cheap
+  /cheapest:
+    get:
+      description: Get cheapest hour and its price
+      operationId: getCheapest
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Price'
+          description: Successful operation
+        "404":
+          description: Price not found
+      summary: Get cheapest hour
+      tags:
+      - cheapest
+components:
+  schemas:
+    Charge:
+      example:
+        charge: true
+      properties:
+        charge:
+          example: true
+          type: boolean
+      required:
+      - charge
+      type: object
+    Price:
+      example:
+        datetime: 2023-12-04T00:00:00.000+01:00
+        price: 0.014
+      properties:
+        price:
+          example: 0.014
+          format: float64
+          type: number
+        datetime:
+          example: 2023-12-04T00:00:00.000+01:00
+          type: string
+      required:
+      - datetime
+      - price
+      type: object
+    Prices:
+      additionalProperties: true
+      type: object
